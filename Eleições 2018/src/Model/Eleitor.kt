@@ -3,10 +3,10 @@ package Model
 class Eleitor{
     var nome = ""
     var titulo = ""
-    var voto = false
+    var votar = false
 
     fun votar(): Boolean{
-        this.voto = true
-        return this.voto
+        this.votar = true
+        return this.votar
     }
 }

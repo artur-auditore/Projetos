@@ -5,6 +5,8 @@ class Urna{
     val candidato1 = Candidato(); val candidato2 = Candidato()
     val eleitores = arrayListOf<Eleitor>()
     var votos = 0
+    var votosBrancos = 0
+    var votosNulos = 0
 
     fun candidatos(){
 
@@ -36,22 +38,29 @@ class Urna{
     }
 
     fun votar(numeroCandidato: String){
-        if (numeroCandidato == candidato1.numero){
-            candidato1.votos++
-        } else{
-            candidato2.votos++
+
+        when {
+            numeroCandidato == candidato1.numero -> candidato1.votos++
+            numeroCandidato == candidato2.numero -> candidato2.votos++
+            numeroCandidato.trim() == "" -> votosBrancos++
+            numeroCandidato == "00" -> votosNulos++
         }
         this.votos++
     }
+
+
 
     fun estatisticas(): String {
         return "Quantidade de votos: " + this.votos  +
                 "\n"+ this.candidato1.nome + ": " + this.candidato1.votos +
                 "\n" + this.candidato2.nome + ": " + this.candidato2.votos +
+                "\nVotos Brancos: " + this.votosBrancos +
+                "\nVotos Nulos: " + this.votosNulos +
                 "\nVencedor: " + vencedorParcial()
     }
 
     fun vencedorParcial(): String{
+        //Não é 51% dos votos, basta ser maior
 
         return when {
             this.candidato1.votos > this.candidato2.votos -> this.candidato1.nome
@@ -63,7 +72,7 @@ class Urna{
     fun verEleitores(): String {
         var dados = ""
         for (eleitor: Eleitor in eleitores){
-            dados += eleitor.nome + " - " + eleitor.titulo
+            dados += eleitor.nome + " - " + eleitor.titulo + "\n"
         }
         return dados
     }
