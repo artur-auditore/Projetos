@@ -47,7 +47,17 @@ class Urna{
     fun estatisticas(): String {
         return "Quantidade de votos: " + this.votos  +
                 "\n"+ this.candidato1.nome + ": " + this.candidato1.votos +
-                "\n" + this.candidato2.nome + ": " + this.candidato2.votos 
+                "\n" + this.candidato2.nome + ": " + this.candidato2.votos +
+                "\nVencedor: " + vencedorParcial()
+    }
+
+    fun vencedorParcial(): String{
+
+        return when {
+            this.candidato1.votos > this.candidato2.votos -> this.candidato1.nome
+            this.candidato1.votos < this.candidato2.votos -> this.candidato2.nome
+            else -> "Ninguém/Empate"
+        }
     }
 
     fun verEleitores(): String {
