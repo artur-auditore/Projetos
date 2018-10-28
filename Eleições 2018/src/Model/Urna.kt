@@ -2,22 +2,20 @@ package Model
 
 class Urna{
 
-    val candidatos = arrayListOf<Candidato>()
+    val candidato1 = Candidato(); val candidato2 = Candidato()
     val eleitores = arrayListOf<Eleitor>()
     var votos = 0
 
     fun candidatos(){
 
-        for (candidato: Candidato in candidatos){
+        candidato1.nome = "Jair Bolsonaro"
+        candidato1.numero = "17"
+        candidato1.partido = "PSL"
 
-            this.candidatos[1].nome = "Jair Bolsonaro"
-            this.candidatos[1].numero = 17
-            this.candidatos[1].partido = "PSL"
+        candidato2.nome = "Fernando Haddad"
+        candidato2.numero = "13"
+        candidato2.partido = "PT"
 
-            this.candidatos[2].nome = "Ferndando Haddad"
-            this.candidatos[2].numero = 13
-            this.candidatos[2].partido = "PT"
-        }
     }
 
     fun novoEleitor(nome: String, titulo: String){
@@ -37,15 +35,19 @@ class Urna{
         return false
     }
 
-    fun votar(numeroCandidato: Int){
-        for (candidato: Candidato in candidatos)
-            if (numeroCandidato == candidato.numero)
-                candidato.votos++
+    fun votar(numeroCandidato: String){
+        if (numeroCandidato == candidato1.numero){
+            candidato1.votos++
+        } else{
+            candidato2.votos++
+        }
         this.votos++
     }
 
     fun estatisticas(): String {
-        return "Quantidade de votos: " + votos
+        return "Quantidade de votos: " + this.votos  +
+                "\n"+ this.candidato1.nome + ": " + this.candidato1.votos +
+                "\n" + this.candidato2.nome + ": " + this.candidato2.votos 
     }
 
     fun verEleitores(): String {

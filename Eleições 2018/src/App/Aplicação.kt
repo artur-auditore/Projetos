@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
                 if(urna.check(numeroTitulo)){
 
                     print("Número do Candidato: ")
-                    val numeroCandidato = readLine()!!.toInt()
+                    val numeroCandidato = readLine()!!.toString()
                     urna.votar(numeroCandidato)
                     println("FIM!")
 
