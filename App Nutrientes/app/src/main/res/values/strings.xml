@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">App Nutrientes</string>
+    <string name="nome">Nome</string>
+    <string name="peso">Peso</string>
+    <string name="altura">Altura</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="remover">Remover</string>
+    <string name="editar">Editar</string>
+    <string name="selecione_o_seu_estilo_de_vida">Selecione o seu estilo de vida</string>
+    <string name="sedent_rio">Sedentário</string>
+    <string name="levemente_ativo">Levemente Ativo</string>
+    <string name="detalhes">Detalhes</string>
+    <string name="moderadamente_ativo">Moderadamente Ativo</string>
+    <string name="muito_ativo">Muito Ativo</string>
+    <string name="taxa_metab_lica_basal">TAXA METABÓLICA BASAL:</string>
+</resources>
