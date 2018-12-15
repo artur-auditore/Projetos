@@ -13,7 +13,7 @@ import java.text.DecimalFormat
 
 class UserInfoActivity : AppCompatActivity() {
 
-    object constants{
+    companion object {
         const val NOME = "nome"
         const val TBM = "tbm"
     }
@@ -52,7 +52,7 @@ class UserInfoActivity : AppCompatActivity() {
     }
 
     private fun saudacao(){
-        nomeAtual = intent.getStringExtra(constants.NOME)
+        nomeAtual = intent.getStringExtra(NOME)
         val saudacao = "Olá $nomeAtual, abaixo estão suas " +
                 "informações e sua taxa metabólica basal"
         textSaudacao.text = saudacao
@@ -65,8 +65,8 @@ class UserInfoActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun calcularTBM(){
 
-        val peso = intent.getDoubleExtra(PessoasAdapter.constants.PESO, 0.0)
-        val altura = intent.getDoubleExtra(PessoasAdapter.constants.ALTURA, 0.0)
+        val peso = intent.getDoubleExtra(PessoasAdapter.PESO, 0.0)
+        val altura = intent.getDoubleExtra(PessoasAdapter.ALTURA, 0.0)
 
         textPeso.text = "Peso: $peso kg"
         textAltura.text = "Altura: $altura m"
@@ -104,8 +104,8 @@ class UserInfoActivity : AppCompatActivity() {
 
     fun detalhes(view: View){
         val intent = Intent(this, DetalhesActivity::class.java)
-        intent.putExtra(constants.NOME, nomeAtual)
-        intent.putExtra(constants.TBM, result)
+        intent.putExtra(NOME, nomeAtual)
+        intent.putExtra(TBM, result)
 
         startActivity(intent)
     }

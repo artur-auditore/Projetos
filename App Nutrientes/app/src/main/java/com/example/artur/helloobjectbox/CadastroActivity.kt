@@ -11,6 +11,11 @@ import kotlinx.android.synthetic.main.activity_cadastro.*
 
 class CadastroActivity : AppCompatActivity() {
 
+    companion object {
+        const val ID = "usuarioId"
+        const val DEFAUT_VALUE = -1
+    }
+
     private lateinit var editNome: EditText
     private lateinit var editPeso: EditText
     private lateinit var editAltura: EditText
@@ -25,11 +30,23 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun setUpViews() {
+        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+        usuario = Usuario()
+
+        val intent = intent
+        val id = intent.getLongExtra(ID, DEFAUT_VALUE.toLong())
+
         editNome = edit_nome
         editPeso = edit_peso
         editAltura = edit_altura
 
-        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+
+        if (id != DEFAUT_VALUE.toLong()){
+            usuario = usuarioBox.get(id)
+            editNome.setText(usuario.nome)
+            editAltura.setText(usuario.altura.toString())
+            editPeso.setText(usuario.peso.toString())
+        }
     }
 
     fun adicionar(view: View){
@@ -38,7 +55,9 @@ class CadastroActivity : AppCompatActivity() {
         val peso = editPeso.text.toString()
         val altura = editAltura.text.toString()
 
-        usuario = Usuario(nome, peso.toDouble(), altura.toDouble())
+        usuario.nome = nome
+        usuario.peso = peso.toDouble()
+        usuario.altura = altura.toDouble()
         usuarioBox.put(usuario)
         finish()
     }

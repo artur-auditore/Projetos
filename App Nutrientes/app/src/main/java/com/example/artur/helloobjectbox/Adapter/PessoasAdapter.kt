@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.example.artur.helloobjectbox.Model.Usuario
 import com.example.artur.helloobjectbox.R
 import kotlinx.android.synthetic.main.pessoa_item.view.*
 import android.widget.Toast
+import com.example.artur.helloobjectbox.CadastroActivity
 import com.example.artur.helloobjectbox.UserInfoActivity
 import io.objectbox.Box
 
@@ -21,10 +23,11 @@ class PessoasAdapter(private val nomes: MutableList<Usuario>,
                      private val usuariosBox: Box<Usuario>,
                      private val context: Context): RecyclerView.Adapter<PessoasAdapter.ViewHolder>() {
 
-    object constants{
+    companion object {
         val NOME = "nome"
         val ALTURA = "altura"
         val PESO = "peso"
+        val ID = "usuarioId"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -57,36 +60,62 @@ class PessoasAdapter(private val nomes: MutableList<Usuario>,
 
         holder.itemView.setOnClickListener { item ->
             val intent = Intent(context, UserInfoActivity::class.java)
-            intent.putExtra(constants.NOME, usuario.nome)
-            intent.putExtra(constants.PESO, usuario.peso)
-            intent.putExtra(constants.ALTURA, usuario.altura)
+            intent.putExtra(NOME, usuario.nome)
+            intent.putExtra(PESO, usuario.peso)
+            intent.putExtra(ALTURA, usuario.altura)
 
             context.startActivity(intent)
         }
+
+        popMenu(holder.itemView, usuario, position)
     }
 
+    private fun popMenu(itemView: View, usuario: Usuario, position: Int) {
 
-    //todo Deixar pra depois
-    private fun remover(view: View, usuario: Usuario, position: Int): Boolean {
-        val alert = AlertDialog.Builder(this.context)
+        itemView.setOnLongClickListener { view ->
+            val popup = PopupMenu(context, view)
+            popup.menuInflater.inflate(R.menu.popup_menu, popup.menu)
 
-        alert.setTitle("Excluir")
-        alert.setMessage("Deseja realmente excluir ${usuario.nome}?")
+            popup.setOnMenuItemClickListener { item ->
 
-        alert.setPositiveButton("SIM") { dialog, which ->
+                when (item.itemId) {
+                    R.id.editar -> editar(usuario, position)
+                    R.id.remover -> remover(usuario, position)
+                }
+
+                false
+            }
+
+            popup.show()
+
+            true
+        }
+    }
+
+    private fun editar(usuario: Usuario, position: Int) {
+        val intent = Intent(context, CadastroActivity::class.java)
+        intent.putExtra(ID, usuario.id)
+        context.startActivity(intent)
+        notifyItemChanged(position)
+    }
+
+    private fun remover(usuario: Usuario, position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+
+        alertDialog.setTitle("Excluir")
+        alertDialog.setMessage("Deseja realmente excluir ${usuario.nome}?")
+
+        alertDialog.setPositiveButton("SIM") { _, _ ->
 
             this.nomes.remove(usuario)
             this.usuariosBox.remove(usuario)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, itemCount)
-            Snackbar.make(view, "${usuario.nome} removido.", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(context, "${usuario.nome} apagado", Toast.LENGTH_SHORT).show()
         }
-
-        alert.setNegativeButton("NÃO") { dialog, which ->
-            Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show() }
-
-        alert.create().show()
-
-        return false
+        alertDialog.setNegativeButton("NÃO") { _, _ ->
+            Toast.makeText(context, "OK", Toast.LENGTH_SHORT).show()
+        }
+        alertDialog.create().show()
     }
 }

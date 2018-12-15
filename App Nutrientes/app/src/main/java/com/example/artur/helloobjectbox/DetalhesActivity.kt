@@ -9,9 +9,8 @@ import java.text.DecimalFormat
 
 class DetalhesActivity : AppCompatActivity() {
 
-    object constants{
+    companion object{
         const val NOME = "nome"
-        const val TBM = "TBM"
     }
     private lateinit var textNome: TextView
     private lateinit var textTBM: TextView
@@ -35,9 +34,9 @@ class DetalhesActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun informacoes(){
 
-        val nome = intent.getStringExtra(constants.NOME)
+        val nome = intent.getStringExtra(NOME)
         textNome.text = nome
-        val tbm = decimalFormat.format(intent.getDoubleExtra(UserInfoActivity.constants.TBM, 0.0))
+        val tbm = decimalFormat.format(intent.getDoubleExtra(UserInfoActivity.TBM, 0.0))
         textTBM.text = "$tbm kcal"
 
         textProteinasKcal.text = decimalFormat.format(calculoKcal(tbm.toDouble(), 0.15))
