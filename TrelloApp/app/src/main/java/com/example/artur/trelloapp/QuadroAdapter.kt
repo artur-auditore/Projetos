@@ -1,6 +1,7 @@
 package com.example.artur.trelloapp
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,13 @@ import kotlinx.android.synthetic.main.item_quadro.view.*
 class QuadroAdapter(private val quadros: MutableList<Quadro>,
                     private val context: Context): RecyclerView.Adapter<QuadroAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(quadro: Quadro){
-            val nome = itemView.text_nome
+    companion object {
+        const val NOME = "nome"
+        const val ID = "id"
+    }
 
-            nome.text = quadro.nome
-        }
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val nome = itemView.text_nome
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,7 +30,14 @@ class QuadroAdapter(private val quadros: MutableList<Quadro>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val quadro = quadros[position]
-        holder.bind(quadro)
+        val quadro = this.quadros[position]
+        holder.nome.text = quadro.nome
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ListasActivity::class.java)
+            intent.putExtra(NOME, quadro.nome)
+            intent.putExtra(ID, quadro.id)
+            context.startActivity(intent)
+        }
     }
 }

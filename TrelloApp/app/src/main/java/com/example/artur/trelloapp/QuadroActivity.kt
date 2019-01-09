@@ -1,11 +1,13 @@
 package com.example.artur.trelloapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
 import com.example.artur.trelloapp.Modelo.Quadro
@@ -16,19 +18,27 @@ import kotlinx.android.synthetic.main.novo_quadro.view.*
 
 class QuadroActivity : AppCompatActivity() {
 
+    companion object {
+        const val ID = "id"
+        const val NOME = "nome"
+    }
+
     private lateinit var quadrosBox: Box<Quadro>
     private lateinit var rvQuadros: RecyclerView
     private lateinit var floatingActionButton: FloatingActionButton
+
+    private lateinit var quadro: Quadro
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quadro)
 
-        quadrosBox = ObjectBox.boxStore.boxFor(Quadro::class.java)
         setUpViews()
+        quadro = Quadro("")
         floatingActionButton.setOnClickListener {
             novoQuadro()
         }
+        quadrosBox = ObjectBox.boxStore.boxFor(Quadro::class.java)
 
     }
 
@@ -46,6 +56,7 @@ class QuadroActivity : AppCompatActivity() {
         rvQuadros.hasFixedSize()
     }
 
+
     @SuppressLint("InflateParams")
     private fun novoQuadro(){
         val alertDialog = AlertDialog.Builder(this)
@@ -60,11 +71,15 @@ class QuadroActivity : AppCompatActivity() {
             if (nome.trim() == ""){
                 Toast.makeText(this, "Nome inválido", Toast.LENGTH_SHORT).show()
             } else{
-                val quadro = Quadro(nome)
+                quadro = Quadro(nome)
                 quadrosBox.put(quadro)
+                val intent = Intent(this, ListasActivity::class.java)
+                intent.putExtra(ID, quadro.id)
+                intent.putExtra(NOME, quadro.nome)
+                startActivity(intent)
             }
         }
-        alertDialog.setNegativeButton("CANCELAR"){ _, _ ->}
-        alertDialog.show()
+        alertDialog.setNeutralButton("CANCELAR"){ _, _ ->}
+        alertDialog.create().show()
     }
 }

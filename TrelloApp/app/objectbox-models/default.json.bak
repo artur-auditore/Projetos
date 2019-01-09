@@ -18,25 +18,9 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "2:3122408753519252184",
-      "lastPropertyId": "2:8459015248222305100",
-      "name": "Lista",
-      "properties": [
-        {
-          "id": "1:4507534953050917898",
-          "name": "id"
-        },
-        {
-          "id": "2:8459015248222305100",
-          "name": "nome"
-        }
-      ],
-      "relations": []
     }
   ],
-  "lastEntityId": "2:3122408753519252184",
+  "lastEntityId": "1:3430793617675198715",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
